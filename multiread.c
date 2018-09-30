@@ -11,7 +11,7 @@ comp lab tech
 //our type hold one number and one name
 typedef struct {
         int number;
-        char name[20];
+        char name[10];
 } person;
 
 int main(int argc, char *argv[])
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
         // Into the memory location "Pontiff", in chunks the size
         // of a "person" object, one chunk, from the stream "inputfile".
         // If we don't get one, something went wrong.
-        if ( (howmany = fread(&Pontiff, sizeof(person), 1, inputfile)) != 1) {
+        if ( (howmany = fread(&President, sizeof(person), 1, inputfile)) != 1) {
                 if ( feof(inputfile) != 0 ) {
                         fprintf(stderr, "EOF on file.\n");
                 } else {
@@ -50,5 +50,13 @@ int main(int argc, char *argv[])
                 exit(1);
         }
 
-        for() {
+         printf("Num     Inits\n");
+        while() { //want to go through each byte, 6 in tot at a time
+                //possible double loop inside loop searching for a null character and
+                //the outside loop searchiing for the EOF
+                printf("%d      %s\n", President.number, President.name);
+        }
+        printf("End of data");
+        return 0;
+
                                  

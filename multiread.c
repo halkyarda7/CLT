@@ -10,53 +10,44 @@ comp lab tech
 
 //our type hold one number and one name
 typedef struct {
-        int number;
-        char name[10];
+        short int number;
+        char name[5];
 } person;
 
 int main(int argc, char *argv[])
 {
-        //no helper metods needed?
-        //use fread() and correct data structure to read the bits off the disk & print out vals
-        //set up a struct to store the persident initials (read the first 5 bits, then chop null and after, then read bit 6 for president number)
-        //print
         person President;
         FILE *inputfile;
-        FILE *inFile;
         int howmany;
 
-        if(argc <2)
+        if(argc != 2)
         {
-                inFile = fopen(argv[1], "r");
-        }
-
-        if ( ( inputfile = fopen(inFile, "r") ) == NULL ) {
-                perror(inFile);
+                fprintf(stderr, "Usage: %s filename\n", argv[0]);
                 exit(1);
         }
 
-        // Into the memory location "Pontiff", in chunks the size
-        // of a "person" object, one chunk, from the stream "inputfile".
-        // If we don't get one, something went wrong.
+        if ( ( inputfile = fopen(argv[1], "r") ) == NULL ) {
+                perror(argv[1]);
+                exit(1);
+        }
+
         if ( (howmany = fread(&President, sizeof(person), 1, inputfile)) != 1) {
-                if ( feof(inputfile) != 0 ) {
-                        fprintf(stderr, "EOF on file.\n");
+                if ( feof(inputfile)) {
+                        printf("EOF on %s\n", argv[1]);
                 } else {
-                        perror(inFile);
+                        perror(argv[1]);
                 }
                 exit(1);
         }
-                perror(inFile);
-                exit(1);
+
+        printf("Num     Inits\n");
+        while(!(feof(inputfile))) {
+                //for loop reading 6 bits
+                printf("%hi     %s\n", President.number, President.name);
+                fread(&President, sizeof(person), 1, inputfile);
         }
 
-         printf("Num     Inits\n");
-        while() { //want to go through each byte, 6 in tot at a time
-                //possible double loop inside loop searching for a null character and
-                //the outside loop searchiing for the EOF
-                printf("%d      %s\n", President.number, President.name);
-        }
-        printf("End of data");
+        printf("End of data\n");
+        fclose(inputfile);
         return 0;
-
-                                 
+}
